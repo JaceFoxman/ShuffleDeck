@@ -36,6 +36,10 @@ Module ShuffleDeck
         Console.WriteLine("Have a nice day!")
     End Sub
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="clearCount"></param>
     Sub DrawCard(Optional clearCount As Boolean = False)
         Dim temp(,) As Boolean = DeckTracker(0, 0) 'create a local copy of Deck tracker
         Dim currentCardNumber As Integer
@@ -57,17 +61,20 @@ Module ShuffleDeck
         End If
     End Sub
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
     Sub DisplayDeck()
         Dim displayString As String = " |"
-        Dim heading() As String = {"Diamond |", " Hearts |", " Clubs  |", " Spades | "}
+        Dim heading() As String = {" D |", " H |", " C |", " S | "}
         Dim tracker(,) As Boolean = DeckTracker(0, 0)
-        Dim columWidth As Integer = 9
+        Dim columWidth As Integer = 4
         For Each letter In heading
             Console.Write(letter)
         Next
 
         Console.WriteLine()
-        Console.WriteLine(StrDup(columWidth * 5, "_"))
+        Console.WriteLine(StrDup(columWidth * 4, "_"))
 
         For currentNumber = 0 To 12
 
@@ -84,6 +91,14 @@ Module ShuffleDeck
         Next
     End Sub
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="cardNumber"></param>
+    ''' <param name="suite"></param>
+    ''' <param name="update"></param>
+    ''' <param name="clear"></param>
+    ''' <returns></returns>
     Function DeckTracker(cardNumber As Integer, suite As Integer,
                           Optional update As Boolean = False,
                           Optional clear As Boolean = False) As Boolean(,)
@@ -99,6 +114,12 @@ Module ShuffleDeck
         Return _cardTracker
     End Function
 
+    ''' <summary>
+    ''' Gather values form DrawCard then converts each number 
+    ''' </summary>
+    ''' <param name="cardNumber"></param>
+    ''' <param name="Suite"></param>
+    ''' <returns></returns>
     Function Formating(cardNumber As Integer, Suite As Integer) As String
         Dim cardValue As String
 
@@ -110,17 +131,23 @@ Module ShuffleDeck
                 cardValue = CStr(cardNumber + 1)
             Case 10 To 12
                 If cardNumber = 10 Then
-                    cardValue = "Jack"
+                    cardValue = "J"
                 ElseIf cardNumber = 11 Then
-                    cardValue = "Queen"
+                    cardValue = "Q"
                 ElseIf cardNumber = 12 Then
-                    cardValue = "King"
+                    cardValue = "K"
                 End If
         End Select
 
         Return cardValue
     End Function
 
+    ''' <summary>
+    ''' Generate a random number
+    ''' </summary>
+    ''' <param name="Min"></param>
+    ''' <param name="Max"></param>
+    ''' <returns></returns>
     Function RNG(Min As Integer, Max As Integer) As Integer
         Dim randomNumber As Single
         Randomize()
