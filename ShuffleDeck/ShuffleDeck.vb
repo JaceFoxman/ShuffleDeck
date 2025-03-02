@@ -47,8 +47,8 @@ Module ShuffleDeck
         Else
             'loop until the current random Card has not already been marked down
             Do
-                currentCardNumber = RNG(0, 12) 'get row
-                currentSuite = RNG(0, 3) 'get column 
+                currentCardNumber = RNG(0, 12) 'get row A,2-10,J,Q,K
+                currentSuite = RNG(0, 3) 'get column Hearts,Diamond,Spade,Club
             Loop Until temp(currentCardNumber, currentSuite) = False Or cardCounter >= 52
 
             'mark current Card as being drawn, updates the display
@@ -59,11 +59,11 @@ Module ShuffleDeck
 
     Sub DisplayDeck()
         Dim displayString As String = " |"
-        Dim heading() As String = {"Diamond |", "Hearts |", "Clubs |", "Spades | "}
+        Dim heading() As String = {"Diamond |", " Hearts |", " Clubs  |", " Spades | "}
         Dim tracker(,) As Boolean = DeckTracker(0, 0)
-        Dim columWidth As Integer = 4
+        Dim columWidth As Integer = 9
         For Each letter In heading
-            Console.Write(letter.PadLeft(CInt(Math.Ceiling((columWidth \ 2)))).PadRight(columWidth))
+            Console.Write(letter)
         Next
 
         Console.WriteLine()
