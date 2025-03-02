@@ -142,6 +142,24 @@ Module ShuffleDeck
         Return cardValue
     End Function
 
+    Function FormatSuite(cardNumber As Integer, Suite As Integer) As String
+        Dim suiteValue As String
+
+        Select Case Suite
+
+            Case 0
+                suiteValue = "Diamonds"
+            Case 1
+                suiteValue = "Hearts"
+            Case 2
+                suiteValue = "Clubs"
+            Case 3
+                suiteValue = "Spades"
+        End Select
+
+        Return suiteValue
+    End Function
+
     ''' <summary>
     ''' Generate a random number
     ''' </summary>
