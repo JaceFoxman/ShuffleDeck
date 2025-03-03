@@ -48,6 +48,7 @@ Module ShuffleDeck
             cardCounter = 0
         ElseIf cardCounter = 52 Then
             DeckTracker(0, 0, True, True) 'clears when all cards are used
+            cardCounter = 0
         Else
             'loop until the current random Card has not already been marked down
             Do
