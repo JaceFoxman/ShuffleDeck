@@ -1,11 +1,12 @@
-﻿Option Compare Text
-Option Explicit On
-Option Strict On
-'Jason Permann
+﻿'Jason Permann
 'Spring 2025
 'RCET2265
 'Shffle The Deck
-'
+'https://github.com/JaceFoxman/ShuffleDeck.git
+
+Option Compare Text
+Option Explicit On
+Option Strict On
 Imports System.ComponentModel.Design
 
 Module ShuffleDeck
@@ -17,7 +18,6 @@ Module ShuffleDeck
             Console.Clear()
             DisplayDeck()
             Console.WriteLine("")
-
             Console.WriteLine("Enter D to draw a card, S to shuffle the deck, or Q to quit.")
             userInput = Console.ReadLine()
             Select Case userInput
