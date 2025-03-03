@@ -12,23 +12,21 @@ Module ShuffleDeck
 
     Sub Main()
         Dim userInput As String
-        Dim _lastBall(1) As Integer
+        Dim tracker(,) As Boolean = DeckTracker(0, 0)
         Do
             Console.Clear()
             DisplayDeck()
             Console.WriteLine("")
 
-            Console.WriteLine("Enter D to draw a ball, C for new game, or Q to quit.")
+            Console.WriteLine("Enter D to draw a card, S to shuffle the deck, or Q to quit.")
             userInput = Console.ReadLine()
-            Console.WriteLine($"Your card is {Formating(0, 0)}")
             Select Case userInput
                 Case "d"
                     DrawCard()
-                Case "c"
+                Case "s"
                     DeckTracker(0, 0,, True) '0,0 dont matter because it just needs something in there sense they are not optional variable, True at the end is the only thing that matters sense it clears.
                     DrawCard(True)
                 Case Else
-
             End Select
 
         Loop Until userInput = "q"
@@ -37,32 +35,35 @@ Module ShuffleDeck
     End Sub
 
     ''' <summary>
-    ''' 
+    ''' Uses RNG function to randomly grab a row and colum integer value
     ''' </summary>
     ''' <param name="clearCount"></param>
     Sub DrawCard(Optional clearCount As Boolean = False)
-        Dim temp(,) As Boolean = DeckTracker(0, 0) 'create a local copy of Deck tracker
+        Dim temp(,) As Boolean = DeckTracker(0, 0) 'create a local copy of DeckTracker
         Dim currentCardNumber As Integer
         Dim currentSuite As Integer
         Static cardCounter As Integer
 
         If clearCount Then
             cardCounter = 0
+        ElseIf cardCounter = 52 Then
+            DeckTracker(0, 0, True, True) 'clears when all cards are used
         Else
             'loop until the current random Card has not already been marked down
             Do
                 currentCardNumber = RNG(0, 12) 'get row A,2-10,J,Q,K
                 currentSuite = RNG(0, 3) 'get column Hearts,Diamond,Spade,Club
             Loop Until temp(currentCardNumber, currentSuite) = False Or cardCounter >= 52
-
             'mark current Card as being drawn, updates the display
             DeckTracker(currentCardNumber, currentSuite, True)
             cardCounter += 1
+
         End If
+
     End Sub
 
     ''' <summary>
-    ''' 
+    ''' Creates display where card values are updated and tracked
     ''' </summary>
     Sub DisplayDeck()
         Dim displayString As String = " |"
@@ -77,10 +78,9 @@ Module ShuffleDeck
         Console.WriteLine(StrDup(columWidth * 4, "_"))
 
         For currentNumber = 0 To 12
-
             For CurrentSuite = 0 To 3
                 If tracker(currentNumber, CurrentSuite) Then
-                    displayString = $"{Formating(currentNumber, CurrentSuite)} |"
+                    displayString = $"{FormatNumber(currentNumber, CurrentSuite)} |"
                 Else
                     displayString = "|"
                 End If
@@ -89,10 +89,11 @@ Module ShuffleDeck
             Next
             Console.WriteLine()
         Next
+
     End Sub
 
     ''' <summary>
-    ''' 
+    ''' Allows drawcard to keep track of any cards drawn previously and can clear displayboard
     ''' </summary>
     ''' <param name="cardNumber"></param>
     ''' <param name="suite"></param>
@@ -102,9 +103,9 @@ Module ShuffleDeck
     Function DeckTracker(cardNumber As Integer, suite As Integer,
                           Optional update As Boolean = False,
                           Optional clear As Boolean = False) As Boolean(,)
+
         'static allows other functions and subs to see a copy of _cardTracker
         Static _cardTracker(12, 3) As Boolean
-
         If update Then
             _cardTracker(cardNumber, suite) = True
         End If
@@ -115,16 +116,15 @@ Module ShuffleDeck
     End Function
 
     ''' <summary>
-    ''' Gather values form DrawCard then converts each number 
+    ''' Gather values form DrawCard then converts each number to string
     ''' </summary>
     ''' <param name="cardNumber"></param>
     ''' <param name="Suite"></param>
     ''' <returns></returns>
-    Function Formating(cardNumber As Integer, Suite As Integer) As String
+    Function FormatNumber(cardNumber As Integer, Suite As Integer) As String
         Dim cardValue As String
 
         Select Case cardNumber
-
             Case 0
                 cardValue = "A"
             Case 1 To 9
@@ -140,24 +140,6 @@ Module ShuffleDeck
         End Select
 
         Return cardValue
-    End Function
-
-    Function FormatSuite(cardNumber As Integer, Suite As Integer) As String
-        Dim suiteValue As String
-
-        Select Case Suite
-
-            Case 0
-                suiteValue = "Diamonds"
-            Case 1
-                suiteValue = "Hearts"
-            Case 2
-                suiteValue = "Clubs"
-            Case 3
-                suiteValue = "Spades"
-        End Select
-
-        Return suiteValue
     End Function
 
     ''' <summary>
